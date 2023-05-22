@@ -4,9 +4,7 @@ import br.ufma.ecp.token.Token;
 import br.ufma.ecp.token.TokenType;
 
 public class Parser {
-    private static class ParseError extends RuntimeException {
-    }
-
+    private static class ParseError extends RuntimeException {}
     private Scanner scan;
     private Token currentToken;
     private Token peekToken;
@@ -23,9 +21,9 @@ public class Parser {
     }
 
     public void parse() {
-        expr();
+        XMLOutput();
     }
-
+/*
     void expr() {
         number();
         oper();
@@ -65,7 +63,7 @@ public class Parser {
     public String VMOutput() {
         return "";
     }
-
+*/
     public String XMLOutput() {
         return xmlOutput.toString();
     }
@@ -155,5 +153,22 @@ public class Parser {
             parseTerm();
         }
         printNonTerminal("/expression");
+    }
+
+    void parseLet() {
+        printNonTerminal("letStatement");
+        expectPeek(TokenType.LET);
+        expectPeek(TokenType.IDENT);
+
+        if (peekTokenIs(TokenType.LBRACKET)) {
+            expectPeek(TokenType.LBRACKET);
+            parseExpression();
+            expectPeek(TokenType.RBRACKET);
+        }
+
+        expectPeek(TokenType.EQ);
+        parseExpression();
+        expectPeek(TokenType.SEMICOLON);
+        printNonTerminal("/letStatement");
     }
 }
