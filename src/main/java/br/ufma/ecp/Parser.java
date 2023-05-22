@@ -4,7 +4,9 @@ import br.ufma.ecp.token.Token;
 import br.ufma.ecp.token.TokenType;
 
 public class Parser {
-    private static class ParseError extends RuntimeException {}
+    private static class ParseError extends RuntimeException {
+    }
+
     private Scanner scan;
     private Token currentToken;
     private Token peekToken;
@@ -100,9 +102,9 @@ public class Parser {
     }
 
     private static void report(int line, String where,
-        String message) {
-            System.err.println(
-            "[line " + line + "] Error" + where + ": " + message);
+            String message) {
+        System.err.println(
+                "[line " + line + "] Error" + where + ": " + message);
     }
 
     private ParseError error(Token token, String message) {
@@ -117,27 +119,41 @@ public class Parser {
     void parseTerm() {
         printNonTerminal("term");
         switch (peekToken.type) {
-          case NUMBER:
-            expectPeek(TokenType.NUMBER);
-            break;
-          case STRING:
-            expectPeek(TokenType.STRING);
-            break;
-          case FALSE:
-          case NULL:
-          case TRUE:
-            expectPeek(TokenType.FALSE, TokenType.NULL, TokenType.TRUE);
-            break;
-          case THIS:
-            expectPeek(TokenType.THIS);
-            break;
-          case IDENT:
-            expectPeek(TokenType.IDENT);
-            break;
-          default:
-            throw error(peekToken, "term expected");
+            case NUMBER:
+                expectPeek(TokenType.NUMBER);
+                break;
+            case STRING:
+                expectPeek(TokenType.STRING);
+                break;
+            case FALSE:
+            case NULL:
+            case TRUE:
+                expectPeek(TokenType.FALSE, TokenType.NULL, TokenType.TRUE);
+                break;
+            case THIS:
+                expectPeek(TokenType.THIS);
+                break;
+            case IDENT:
+                expectPeek(TokenType.IDENT);
+                break;
+            default:
+                throw error(peekToken, "term expected");
         }
-    
+
         printNonTerminal("/term");
-      }
+    }
+
+    static public boolean isOperator(String op) {
+        return "+-*/<>=~&|".contains(op);
+    }
+
+    void parseExpression() {
+        printNonTerminal("expression");
+        parseTerm();
+        while (isOperator(peekToken.lexeme)) {
+            expectPeek(peekToken.type);
+            parseTerm();
+        }
+        printNonTerminal("/expression");
+    }
 }
