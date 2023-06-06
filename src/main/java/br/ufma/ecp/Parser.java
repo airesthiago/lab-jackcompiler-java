@@ -13,14 +13,10 @@ public class Parser {
     private StringBuilder xmlOutput = new StringBuilder();
 
     private String className;
-    private int ifLabelNum;
-    private int whileLabelNum;
 
     public Parser(byte[] input) {
         scan = new Scanner(input);
         nextToken();
-        ifLabelNum = 0;
-        whileLabelNum = 0;
     }
 
     private void nextToken() {
@@ -200,15 +196,15 @@ public class Parser {
         expectPeek(TokenType.FIELD, TokenType.STATIC);
 
         expectPeek(TokenType.INT, TokenType.CHAR, TokenType.BOOLEAN, TokenType.IDENT);
-        String type = currentToken.value();
+        //String type = currentToken.value();
 
         expectPeek(TokenType.IDENT);
-        String name = currentToken.value();
+        //String name = currentToken.value();
 
         while (peekTokenIs(TokenType.COMMA)) {
             expectPeek(TokenType.COMMA);
             expectPeek(TokenType.IDENT);
-            name = currentToken.value();
+            //name = currentToken.value();
         }
         expectPeek(TokenType.SEMICOLON);
         printNonTerminal("/classVarDec");
@@ -234,17 +230,17 @@ public class Parser {
         if (!peekTokenIs(TokenType.RPAREN))
         {
             expectPeek(TokenType.INT, TokenType.CHAR, TokenType.BOOLEAN, TokenType.IDENT);
-            String type = currentToken.value();
+            //String type = currentToken.value();
             expectPeek(TokenType.IDENT);
-            String name = currentToken.value();
+            //String name = currentToken.value();
 
             while (peekTokenIs(TokenType.COMMA)) {
                 expectPeek(TokenType.COMMA);
                 expectPeek(TokenType.INT, TokenType.CHAR, TokenType.BOOLEAN, TokenType.IDENT);
-                type = currentToken.value();
+                //type = currentToken.value();
 
                 expectPeek(TokenType.IDENT);
-                name = currentToken.value();
+                //name = currentToken.value();
             }
         }
         printNonTerminal("/parameterList");
@@ -252,8 +248,7 @@ public class Parser {
 
     void parseSubroutineDec() {
         printNonTerminal("subroutineDec");
-        ifLabelNum = 0;
-        whileLabelNum = 0;
+
         expectPeek(TokenType.CONSTRUCTOR, TokenType.FUNCTION, TokenType.METHOD);
         var subroutineType = currentToken.type;
 
@@ -272,15 +267,15 @@ public class Parser {
         printNonTerminal("varDec");
         expectPeek(TokenType.VAR);
         expectPeek(TokenType.INT, TokenType.CHAR, TokenType.BOOLEAN, TokenType.IDENT);
-        String type = currentToken.value();
+        //String type = currentToken.value();
 
         expectPeek(TokenType.IDENT);
-        String name = currentToken.value();
+        //String name = currentToken.value();
 
         while (peekTokenIs(TokenType.COMMA)) {
             expectPeek(TokenType.COMMA);
             expectPeek(TokenType.IDENT);
-            name = currentToken.value();
+            //name = currentToken.value();
         }
         expectPeek(TokenType.SEMICOLON);
         printNonTerminal("/varDec");
