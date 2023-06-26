@@ -72,4 +72,5 @@ public class VMWriter {
     void writeReturn() {
         vmOutput.append(String.format("return\n"));
     }
+
 }
