@@ -41,7 +41,6 @@ public class VMWriter {
     }
 
     void writePop(Segment segment, int index) {
-
         vmOutput.append(String.format("pop %s %d\n", segment.value, index));
     }
 
@@ -72,5 +71,4 @@ public class VMWriter {
     void writeReturn() {
         vmOutput.append(String.format("return\n"));
     }
-
 }

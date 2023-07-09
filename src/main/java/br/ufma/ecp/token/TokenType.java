@@ -1,13 +1,13 @@
 package br.ufma.ecp.token;
 
 import java.util.List;
-//import java.util.Map; --não utilizado
+//import java.util.Map;
 
 public enum TokenType {
     // Literals.
     NUMBER,
-    IDENT,
     STRING,
+    IDENT,
 
     // keywords
     METHOD, WHILE, IF, CLASS, CONSTRUCTOR,
@@ -30,7 +30,7 @@ public enum TokenType {
 
     EOF,
 
-    ILLEGAL, value;
+    ILLEGAL;
 
     static public boolean isSymbol(char c) {
         String symbols = "{}()[].,;+-*/&|<>=~";
